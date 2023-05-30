@@ -1,6 +1,6 @@
 {
-  "name": "배경색 변경 크롬 확장 프로그램",
-  "description": "웹 페이지의 배경색을 변경해 주는 크롬 확장 프로그램입니다.",
+  "name": "코트 예약 프로그램",
+  "description": "선택한 코드를 자동으로 입력해서 예약해주는 프로그램입니다.",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
