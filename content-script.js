@@ -1,6 +1,8 @@
 window.onload = () => {
   const href = window.location.href;
 
+  window.scrollTo(0, document.body.scrollHeight);
+
   chrome.storage.sync.get(null, async (values) => {
     const { SITE_CD, PART_CD, PLACE_CD, F_Year, F_Month, F_Day, startTime } =
       values;
@@ -57,6 +59,8 @@ window.onload = () => {
           window.clearInterval(key);
           checkbox.click();
           submit.click();
+
+          console.log("...??");
         }
       }, 100);
     }
