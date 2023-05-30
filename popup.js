@@ -9,8 +9,11 @@ const form = document.getElementById("form");
 
 chrome.storage.sync.get(null, (values) => {
   Object.entries(values).forEach(([name, value]) => {
-    console.log(form[name]);
-    form[name].value = value;
+    console.log(name, value, form[name]);
+
+    if (form[name]) {
+      form[name].value = value;
+    }
   });
 });
 
@@ -57,82 +60,86 @@ start.addEventListener("click", async () => {
             return;
           }
 
-          const 시간가져오기Form = new FormData();
-          시간가져오기Form.append("SITE_CD", SITE_CD);
-          시간가져오기Form.append("PART_CD", PART_CD);
-          시간가져오기Form.append("PLACE_CD", PLACE_CD);
-          시간가져오기Form.append("F_Year", F_Year);
-          시간가져오기Form.append("F_Month", F_Month);
-          시간가져오기Form.append("F_Day", F_Day);
-          시간가져오기Form.append("d", "m");
-          시간가져오기Form.append("flag", "Next");
-          시간가져오기Form.append("agree1", "Y");
+          const url = `https://online.igangdong.or.kr/rent/list.do?SITE_CD=${SITE_CD}&PART_CD=${PART_CD}&PLACE_CD=${PLACE_CD}&F_Year=${F_Year}&F_Month=${F_Month}&d=m&flag=Next&agree1=Y`;
 
-          const 시간목록 = await fetch(
-            "https://online.igangdong.or.kr/rent/ajax.do",
-            {
-              method: "POST",
-              body: 시간가져오기Form,
-            }
-          ).then((res) => res.json());
+          window.location.href = url;
 
-          console.log("### 시간 목록", 시간목록);
+          // const 시간가져오기Form = new FormData();
+          // 시간가져오기Form.append("SITE_CD", SITE_CD);
+          // 시간가져오기Form.append("PART_CD", PART_CD);
+          // 시간가져오기Form.append("PLACE_CD", PLACE_CD);
+          // 시간가져오기Form.append("F_Year", F_Year);
+          // 시간가져오기Form.append("F_Month", F_Month);
+          // 시간가져오기Form.append("F_Day", F_Day);
+          // 시간가져오기Form.append("d", "m");
+          // 시간가져오기Form.append("flag", "Next");
+          // 시간가져오기Form.append("agree1", "Y");
 
-          const 선택한시간 = 시간목록.find(({ stime }) => stime === startTime);
+          // const 시간목록 = await fetch(
+          //   "https://online.igangdong.or.kr/rent/ajax.do",
+          //   {
+          //     method: "POST",
+          //     body: 시간가져오기Form,
+          //   }
+          // ).then((res) => res.json());
 
-          if (!선택한시간) {
-            alert("해당 날짜에 예약 가능한 시간이 없습니다.");
-            return;
-          }
+          // console.log("### 시간 목록", 시간목록);
 
-          const {
-            Night_fee,
-            stime,
-            Limit_Cnt,
-            Use_Limit,
-            etime,
-            oneday_use_cnt,
-            month_use_cnt,
-            set_fee,
-            Limit_Month,
-          } = 선택한시간;
+          // const 선택한시간 = 시간목록.find(({ stime }) => stime === startTime);
 
-          const form = document.createElement("form");
-          form.action = "https://online.igangdong.or.kr/rent/detail.do";
-          form.method = "POST";
-          const values = [
-            { name: "SITE_CD", value: SITE_CD },
-            { name: "PART_CD", value: PART_CD },
-            { name: "PLACE_CD", value: PLACE_CD },
-            { name: "F_Year", value: F_Year },
-            { name: "F_Month", value: F_Month },
-            { name: "F_Day", value: F_Day },
-            { name: "R_FEE", value: Number(set_fee) },
-            { name: "N_FEE", value: Number(Night_fee) },
-            { name: "R_USEPLAN", value: `${stime | etime}` },
-            { name: "Rent_info", value: `${stime}~${etime} (총2시간)` },
-            { name: "Use_Limit", value: Use_Limit },
-            { name: "Limit_Month", value: Limit_Month },
-            { name: "Limit_Cnt", value: Limit_Cnt },
-            { name: "month_use_cnt", value: month_use_cnt },
-            { name: "oneday_use_cnt", value: oneday_use_cnt },
-            {
-              name: "rent_chk[]",
-              value: `${stime}|${etime}|N|${set_fee}|${Night_fee}`,
-            },
-          ];
+          // if (!선택한시간) {
+          //   alert("해당 날짜에 예약 가능한 시간이 없습니다.");
+          //   return;
+          // }
 
-          console.log("### 최종 SUBMIT 값", values);
+          // const {
+          //   Night_fee,
+          //   stime,
+          //   Limit_Cnt,
+          //   Use_Limit,
+          //   etime,
+          //   oneday_use_cnt,
+          //   month_use_cnt,
+          //   set_fee,
+          //   Limit_Month,
+          // } = 선택한시간;
 
-          values.forEach((value) => {
-            const input = document.createElement("input");
-            input.type = "text";
-            input.name = value.name;
-            input.value = value.value;
-            form.appendChild(input);
-          });
-          document.body.appendChild(form);
-          form.submit();
+          // const form = document.createElement("form");
+          // form.action = "https://online.igangdong.or.kr/rent/detail.do";
+          // form.method = "POST";
+          // const values = [
+          //   { name: "SITE_CD", value: SITE_CD },
+          //   { name: "PART_CD", value: PART_CD },
+          //   { name: "PLACE_CD", value: PLACE_CD },
+          //   { name: "F_Year", value: F_Year },
+          //   { name: "F_Month", value: F_Month },
+          //   { name: "F_Day", value: F_Day },
+          //   { name: "R_FEE", value: Number(set_fee) },
+          //   { name: "N_FEE", value: Number(Night_fee) },
+          //   { name: "R_USEPLAN", value: `${stime | etime}` },
+          //   { name: "Rent_info", value: `${stime}~${etime} (총2시간)` },
+          //   { name: "Use_Limit", value: Use_Limit },
+          //   { name: "Limit_Month", value: Limit_Month },
+          //   { name: "Limit_Cnt", value: Limit_Cnt },
+          //   { name: "month_use_cnt", value: month_use_cnt },
+          //   { name: "oneday_use_cnt", value: oneday_use_cnt },
+          //   {
+          //     name: "rent_chk[]",
+          //     value: `${stime}|${etime}|N|${set_fee}|${Night_fee}`,
+          //   },
+          // ];
+
+          // console.log("### 최종 SUBMIT 값", values);
+
+          // values.forEach((value) => {
+          //   const input = document.createElement("input");
+          //   input.type = "text";
+          //   input.name = value.name;
+          //   input.value = value.value;
+          //   form.appendChild(input);
+          // });
+          // document.body.appendChild(form);
+          // form.submit();
         });
       } catch (err) {
         console.error(err);
