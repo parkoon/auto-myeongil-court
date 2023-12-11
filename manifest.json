@@ -1,7 +1,7 @@
 {
   "name": "코트 예약 프로그램",
   "description": "선택한 코드를 자동으로 입력해서 예약해주는 프로그램입니다.",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
